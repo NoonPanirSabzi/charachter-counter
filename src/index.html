@@ -22,20 +22,56 @@
     <title>Frontend Mentor | Character counter</title>
   </head>
   <body>
-    Analyze your text in real-time. Start typing here… (or paste your text)
-    Exclude Spaces Set Character Limit Approx. reading time:
-    <!-- Insert number -->
-    minutes
-
-    <!-- Insert number -->
-    Total Characters
-
-    <!-- Insert number -->
-    Word Count
-
-    <!-- Insert number -->
-    Sentence Count Letter Density No characters found. Start typing to see
-    letter density.
+    <header>
+      <div class="header">
+        <div class="logo-container">
+          <img src="./assets/images/logo-light-theme.svg" alt="light logo" />
+        </div>
+        <div class="theme-container">
+          <img src="./assets/images/icon-moon.svg" alt="ico n moon" />
+        </div>
+      </div>
+      <h1>Analyze your text in real-time.</h1>
+    </header>
+    <main>
+      <textarea
+        name="user-text"
+        id="user-text"
+        placeholder="Start typing here… (or paste your text)"
+      ></textarea>
+      <div class="options-container">
+        <div class="checkbox-container">
+          <label for="exclude-spaces">Exclude Spaces</label>
+          <input type="checkbox" name="exclude spaces" id="exclude-spaces" />
+        </div>
+        <div class="checkbox-container">
+          <label for="chr-limit">Set Character Limit</label>
+          <input type="checkbox" name="character limit" id="chr-limit" />
+          <input
+            type="number"
+            name="character limit count"
+            id="chr-limit-count"
+          />
+        </div>
+        <span id="read-time">Approx. reading time: 0 minute</span>
+      </div>
+      <div class="stats">
+        <div class="total-characters stat-container">
+          <span id="total-characters-value">00</span>
+          <p>Total Characters</p>
+        </div>
+        <div class="word-count stat-container">
+          <span id="word-count-value">00</span>
+          <p>Word Count</p>
+        </div>
+        <div class="sentence-count stat-container">
+          <span id="sentence-count-value">00</span>
+          <p>Sentence Count</p>
+        </div>
+      </div>
+    </main>
+    <!-- Letter Density No characters found. Start typing to see
+    letter density. -->
     <script src="main.js"></script>
   </body>
 </html>
