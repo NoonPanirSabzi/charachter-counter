@@ -129,7 +129,7 @@ img {
 .theme-container {
   inline-size: 2rem;
   block-size: 2rem;
-  border-radius: 0.375rem;
+  border-radius: var(--radius-6);
   padding: var(--spacing-075);
   background-color: var(--color-neutral-100);
 }
@@ -140,4 +140,86 @@ h1 {
   margin-inline: auto;
   margin-block-end: var(--spacing-500);
   color: var(--color-neutral-900);
+}
+
+.user-text {
+  inline-size: 100%;
+  block-size: 12.5rem;
+  border-radius: var(--radius-12);
+  padding: var(--spacing-150);
+  margin-block-end: var(--spacing-200);
+  border: 2px solid var(--color-neutral-200);
+  color: var(--color-neutral-700);
+  background-color: var(--color-neutral-100);
+  resize: none;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  color: var(--color-neutral-900);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.checkbox-container input[type="checkbox"] {
+  appearance: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border: 1px solid var(--color-neutral-900);
+  border-radius: var(--radius-4);
+}
+
+.checkbox-container label {
+  order: 1;
+}
+
+.checkbox-container input[type="number"] {
+  inline-size: 3.4375rem;
+  block-size: 1.8125rem;
+  padding-inline-start: var(--spacing-150);
+  padding-block: var(--spacing-050);
+  border-radius: var(--radius-6);
+  border: 1px solid var(--color-neutral-600);
+  color: var(--color-neutral-900);
+  order: 2;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  margin-block: var(--spacing-500) var(--spacing-300);
+}
+
+.stat-container {
+  padding: var(--spacing-250);
+  border-radius: var(--radius-12);
+  color: var(--color-neutral-900);
+  background-repeat: no-repeat;
+  background-position: top 0px right -50px;
+}
+
+.stat-container p {
+  margin-block-start: var(--spacing-100);
+}
+
+.total-characters {
+  background-color: var(--color-blue-400);
+  background-image: url(./assets/images/pattern-character-count.svg);
+}
+
+.word-count {
+  background-color: var(--color-yellow-500);
+  background-image: url(./assets/images/pattern-word-count.svg);
+}
+
+.sentence-count {
+  background-color: var(--color-orange-500);
+  background-image: url(./assets/images/pattern-sentence-count.svg);
 }
