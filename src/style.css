@@ -119,7 +119,6 @@ img {
   justify-content: space-between;
   align-items: center;
   padding-block: var(--spacing-200);
-  margin-block-end: var(--spacing-500);
 }
 
 .logo-container {
@@ -138,7 +137,7 @@ h1 {
   max-inline-size: 31.875rem;
   text-align: center;
   margin-inline: auto;
-  margin-block-end: var(--spacing-500);
+  margin-block: var(--spacing-500);
   color: var(--color-neutral-900);
 }
 
@@ -198,7 +197,7 @@ h1 {
 }
 
 .stat-container {
-  padding: var(--spacing-250);
+  padding: 1.6875rem var(--spacing-250);
   border-radius: var(--radius-12);
   color: var(--color-neutral-900);
   background-repeat: no-repeat;
