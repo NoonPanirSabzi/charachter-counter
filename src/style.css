@@ -222,3 +222,42 @@ h1 {
   background-color: var(--color-orange-500);
   background-image: url(./assets/images/pattern-sentence-count.svg);
 }
+
+@media (min-width: 48em) {
+  body {
+    padding-inline: var(--spacing-400);
+  }
+
+  .logo-container {
+    inline-size: 15.3125rem;
+  }
+
+  .theme-container {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border-radius: var(--radius-8);
+    padding: 0.6875rem;
+  }
+
+  .user-text {
+    padding: var(--spacing-250);
+  }
+
+  .options-container {
+    flex-direction: row;
+    gap: var(--spacing-300);
+  }
+
+  .read-time {
+    margin-inline-start: auto;
+  }
+
+  .stats {
+    flex-direction: row;
+  }
+
+  .stat-container {
+    flex: 1;
+    padding: var(--spacing-300) var(--spacing-150);
+  }
+}
