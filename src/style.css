@@ -245,6 +245,7 @@ h1 {
 
   .options-container {
     flex-direction: row;
+    align-items: center;
     gap: var(--spacing-300);
   }
 
@@ -259,5 +260,30 @@ h1 {
   .stat-container {
     flex: 1;
     padding: var(--spacing-300) var(--spacing-150);
+  }
+
+  .stat-container p {
+    margin-block-start: .625rem;
+  }
+}
+
+@media (min-width: 64em) {
+  body {
+    max-inline-size: 61.875rem;
+    padding-inline: 0;
+    padding-block: var(--spacing-400) var(--spacing-800);
+    margin-inline: auto;
+  }
+
+  .header {
+    padding-block: 0;
+  }
+
+  h1 {
+    margin-block: var(--spacing-600);
+  }
+
+  .stats {
+    margin-block-start: var(--spacing-600);
   }
 }
