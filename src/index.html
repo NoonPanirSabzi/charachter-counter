@@ -34,12 +34,17 @@
       <h1 class="text-preset-1">Analyze your text in real-time.</h1>
     </header>
     <main>
-      <textarea
-        name="user-text"
-        id="user-text"
-        placeholder="Start typing here… (or paste your text)"
-        class="user-text text-preset-3"
-      ></textarea>
+      <div class="comp-textarea">
+        <textarea
+          name="user-text"
+          id="user-text"
+          placeholder="Start typing here… (or paste your text)"
+          class="comp-textarea__input text-preset-3"
+        ></textarea>
+        <span class="comp-textarea__hint text-preset-4"
+          >Limit reached! Your text exceeds 300 characters.</span
+        >
+      </div>
       <div class="options-container text-preset-4">
         <div class="checkbox-container">
           <label for="exclude-spaces">Exclude Spaces</label>
@@ -54,7 +59,9 @@
             id="chr-limit-count"
           />
         </div>
-        <span id="read-time" class="read-time">Approx. reading time: 0 minute</span>
+        <span id="read-time" class="read-time"
+          >Approx. reading time: 0 minute</span
+        >
       </div>
       <div class="stats">
         <div class="total-characters stat-container">
