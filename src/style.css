@@ -282,6 +282,15 @@ h1 {
   order: 2;
 }
 
+/* UTILITY CLASSES */
+.invisible {
+  visibility: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
 @media (min-width: 48em) {
   body {
     padding-inline: var(--spacing-400);
