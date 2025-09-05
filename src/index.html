@@ -46,14 +46,30 @@
         >
       </div>
       <div class="options-container text-preset-4">
-        <div class="checkbox-container">
-          <label for="exclude-spaces">Exclude Spaces</label>
-          <input type="checkbox" name="exclude spaces" id="exclude-spaces" />
-        </div>
-        <div class="checkbox-container">
-          <label for="chr-limit">Set Character Limit</label>
-          <input type="checkbox" name="character limit" id="chr-limit" />
+        <div class="comp-checkbox">
+          <label class="comp-checkbox__label" for="exclude-spaces"
+            >Exclude Spaces</label
+          >
           <input
+            class="comp-checkbox__input"
+            type="checkbox"
+            name="exclude spaces"
+            id="exclude-spaces"
+            checked
+          />
+        </div>
+        <div class="comp-checkbox">
+          <label class="comp-checkbox__label" for="chr-limit"
+            >Set Character Limit</label
+          >
+          <input
+            class="comp-checkbox__input"
+            type="checkbox"
+            name="character limit"
+            id="chr-limit"
+          />
+          <input
+            class="comp-checkbox__number"
             type="number"
             name="character limit count"
             id="chr-limit-count"

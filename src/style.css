@@ -148,35 +148,6 @@ h1 {
   color: var(--color-neutral-900);
 }
 
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-.checkbox-container input[type="checkbox"] {
-  appearance: none;
-  inline-size: 1rem;
-  block-size: 1rem;
-  border: 1px solid var(--color-neutral-900);
-  border-radius: var(--radius-4);
-}
-
-.checkbox-container label {
-  order: 1;
-}
-
-.checkbox-container input[type="number"] {
-  inline-size: 3.4375rem;
-  block-size: 1.8125rem;
-  padding-inline-start: var(--spacing-150);
-  padding-block: var(--spacing-050);
-  border-radius: var(--radius-6);
-  border: 1px solid var(--color-neutral-600);
-  color: var(--color-neutral-900);
-  order: 2;
-}
-
 .stats {
   display: flex;
   flex-direction: column;
@@ -258,6 +229,57 @@ h1 {
   left: 0;
   top: 45%;
   transform: translateY(-50%);
+}
+
+.comp-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.comp-checkbox__input {
+  appearance: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+  border: 1px solid var(--color-neutral-900);
+  border-radius: var(--radius-4);
+  order: 0;
+}
+
+:is(.comp-checkbox__input, .comp-checkbox__label):hover {
+  cursor: pointer;
+  border-color: var(--color-neutral-600);
+}
+
+.comp-checkbox__input:focus {
+  outline: none;
+  border: 1px solid var(--color-neutral-200);
+  box-shadow: 0 0 0 0.125rem var(--color-neutral-0),
+    0 0 0 0.25rem var(--color-blue-400);
+}
+
+.comp-checkbox__input:checked {
+  background-color: var(--color-blue-500);
+  background-image: url(./assets/images/icon-check.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+}
+
+.comp-checkbox__label {
+  padding-inline-start: 10px;
+  order: 1;
+}
+
+.comp-checkbox__number {
+  inline-size: 3.4375rem;
+  block-size: 1.8125rem;
+  margin-inline-start: 0.625rem;
+  padding-inline-start: var(--spacing-150);
+  padding-block: var(--spacing-050);
+  border-radius: var(--radius-6);
+  border: 1px solid var(--color-neutral-600);
+  color: var(--color-neutral-900);
+  order: 2;
 }
 
 @media (min-width: 48em) {
