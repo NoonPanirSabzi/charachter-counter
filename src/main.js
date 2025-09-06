@@ -8,6 +8,7 @@ const elements = {
   wordCount: document.getElementById("word-count"),
   sentenceCount: document.getElementById("sentence-count"),
   hint: document.querySelector(".comp-textarea__hint"),
+  noSpaceText: document.getElementById("nospace-text")
 };
 
 function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
@@ -28,6 +29,7 @@ function analyzeText(text) {
   const sentenceCount = textArr.filter((chr) => chr === ".").length;
   const readTime = Math.floor(wordCount / 238);
 
+  elements.noSpaceText.classList.toggle("invisible", !excludeSpace)
   showResult(totalCharacters, wordCount, sentenceCount, readTime);
 }
 
