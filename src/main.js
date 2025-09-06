@@ -12,9 +12,9 @@ const elements = {
 };
 
 function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
-  elements.totalCharacters.innerText = totalCharacters;
-  elements.wordCount.innerText = wordCount;
-  elements.sentenceCount.innerText = sentenceCount;
+  elements.totalCharacters.innerText = totalCharacters < 10 ? "0" + String(totalCharacters) : totalCharacters;
+  elements.wordCount.innerText = wordCount < 10 ? "0" + String(wordCount) : wordCount;
+  elements.sentenceCount.innerText = sentenceCount < 10 ? "0" + String(sentenceCount) : sentenceCount;
   elements.readTime.innerText = `Approx. reading time: ${
     readTime === 0 ? "<1" : readTime
   } minute`;
