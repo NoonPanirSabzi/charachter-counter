@@ -51,3 +51,22 @@ elements.userText.addEventListener("input", () => {
 
   analyzeText(userText);
 });
+
+elements.excludeSpaces.addEventListener("change", () => {
+  analyzeText(elements.userText.value);
+});
+
+elements.chrLimit.addEventListener("change", () => {
+  elements.chrLimitCount.classList.toggle("invisible");
+  if (elements.chrLimitCount.classList.contains("invisible")) {
+    elements.chrLimitCount.value = null;
+  }
+
+  const userText = checkLimit(elements.userText.value);
+  analyzeText(userText);
+});
+
+elements.chrLimitCount.addEventListener("change", () => {
+  const userText = checkLimit(elements.userText.value);
+  analyzeText(userText);
+});
