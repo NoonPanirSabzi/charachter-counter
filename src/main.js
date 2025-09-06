@@ -42,6 +42,7 @@ function checkLimit(text) {
   }
 
   elements.hint.classList.toggle("hidden", !limitReached);
+  elements.userText.classList.toggle("error", limitReached);
   return elements.userText.value;
 }
 
