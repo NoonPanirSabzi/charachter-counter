@@ -208,7 +208,8 @@ h1 {
   box-shadow: 0 0 0.625rem 0 var(--color-blue-400);
 }
 
-.comp-textarea__input:is(.error, .error:focus) {
+:is(.error, .error:focus) {
+  outline: none;
   border: 1px solid var(--color-orange-800);
   box-shadow: 0 0 0.5rem var(--color-orange-800);
 }
