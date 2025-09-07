@@ -15,9 +15,12 @@ const elements = {
 let detailedLetterDensity = false;
 
 function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
-  elements.totalCharacters.innerText = totalCharacters < 10 ? "0" + String(totalCharacters) : totalCharacters;
-  elements.wordCount.innerText = wordCount < 10 ? "0" + String(wordCount) : wordCount;
-  elements.sentenceCount.innerText = sentenceCount < 10 ? "0" + String(sentenceCount) : sentenceCount;
+  elements.totalCharacters.innerText =
+    totalCharacters < 10 ? "0" + String(totalCharacters) : totalCharacters;
+  elements.wordCount.innerText =
+    wordCount < 10 ? "0" + String(wordCount) : wordCount;
+  elements.sentenceCount.innerText =
+    sentenceCount < 10 ? "0" + String(sentenceCount) : sentenceCount;
   elements.readTime.innerText = `Approx. reading time: ${
     readTime === 0 ? "<1" : readTime
   } minute`;
@@ -78,8 +81,7 @@ function evaluateLetterDensity(show, charArr) {
   showLetterDensity(sortedDensity, totalLetters);
 }
 
-function analyzeText(text) {
-  const textArr = text.trim().split("");
+function analyzeText(textArr) {
   const excludeSpace = elements.excludeSpaces.checked;
   const spaceCount = textArr.filter((chr) => chr === " ").length;
   const totalCharacters = textArr.length - (excludeSpace ? spaceCount : 0);
@@ -114,14 +116,25 @@ function checkLimit(text) {
   return elements.userText.value;
 }
 
-elements.userText.addEventListener("input", () => {
-  const userText = checkLimit(elements.userText.value);
+function mainHandler(analyize, limit, density) {
+  const userText = limit
+    ? checkLimit(elements.userText.value)
+    : elements.userText.value;
+  const userTextArr = userText.trim().toUpperCase().split("");
+  if (analyize) {
+    analyzeText(userTextArr);
+  }
+  if (density) {
+    evaluateLetterDensity(userTextArr.length === 0 ? false : true, userTextArr);
+  }
+}
 
-  analyzeText(userText);
+elements.userText.addEventListener("input", () => {
+  mainHandler(true, true, true);
 });
 
 elements.excludeSpaces.addEventListener("change", () => {
-  analyzeText(elements.userText.value);
+  mainHandler(true, false, false);
 });
 
 elements.chrLimit.addEventListener("change", () => {
@@ -129,12 +142,9 @@ elements.chrLimit.addEventListener("change", () => {
   if (elements.chrLimitCount.classList.contains("invisible")) {
     elements.chrLimitCount.value = null;
   }
-
-  const userText = checkLimit(elements.userText.value);
-  analyzeText(userText);
+  mainHandler(false, true, false);
 });
 
 elements.chrLimitCount.addEventListener("change", () => {
-  const userText = checkLimit(elements.userText.value);
-  analyzeText(userText);
+  mainHandler(true, true, true)
 });
