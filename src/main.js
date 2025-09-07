@@ -146,5 +146,14 @@ elements.chrLimit.addEventListener("change", () => {
 });
 
 elements.chrLimitCount.addEventListener("change", () => {
-  mainHandler(true, true, true)
+  mainHandler(true, true, true);
+});
+
+elements.letterDensityStats.addEventListener("click", (e) => {
+  const toggleBtn = e.target.closest(".toggle-ld-btn");
+
+  if (toggleBtn) {
+    detailedLetterDensity = !detailedLetterDensity;
+    mainHandler(false, false, true);
+  }
 });
