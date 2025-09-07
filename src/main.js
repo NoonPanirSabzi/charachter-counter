@@ -9,7 +9,10 @@ const elements = {
   sentenceCount: document.getElementById("sentence-count"),
   hint: document.querySelector(".comp-textarea__hint"),
   noSpaceText: document.getElementById("nospace-text"),
+  noChrFound: document.querySelector(".no-chr-found"),
+  letterDensityStats: document.querySelector(".letter-density__stats"),
 };
+let detailedLetterDensity = false;
 
 function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
   elements.totalCharacters.innerText = totalCharacters < 10 ? "0" + String(totalCharacters) : totalCharacters;
@@ -18,6 +21,61 @@ function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
   elements.readTime.innerText = `Approx. reading time: ${
     readTime === 0 ? "<1" : readTime
   } minute`;
+}
+
+function showLetterDensity(sortedDensityArr, totalLetters) {
+  let lDContainerHTML = ``;
+  const seeMoreHTML = `
+          <div class="toggle-ld-btn">
+            <span>See more</span
+            ><i class="fas fa-angle-down"></i>
+          </div>`;
+  const seeLessHTML = `
+          <div class="toggle-ld-btn">
+            <span>See less</span
+            ><i class="fas fa-angle-up"></i>
+          </div>`;
+
+  for (let i = 0; i < sortedDensityArr.length; i++) {
+    let letter = sortedDensityArr[i][0];
+    let count = sortedDensityArr[i][1];
+    let density = (count / totalLetters * 100).toFixed(2);
+    lDContainerHTML += `
+          <div class="letter">
+            <span>${letter}</span>
+            <div class="outer-bar"><div class="inside-bar" style="width: ${density}%;"></div></div>
+            <span>${count} (${density}%)</span>
+          </div>
+    `;
+    if (i === 4 && i < sortedDensityArr.length - 1 && !detailedLetterDensity) {
+      lDContainerHTML += seeMoreHTML;
+      break;
+    }
+  }
+
+  if (sortedDensityArr.length > 5 && detailedLetterDensity) {
+    lDContainerHTML += seeLessHTML;
+  }
+  elements.letterDensityStats.innerHTML = lDContainerHTML;
+}
+
+function evaluateLetterDensity(show, charArr) {
+  elements.noChrFound.classList.toggle("hidden", show);
+  elements.letterDensityStats.classList.toggle("hidden", !show);
+
+  charArr = charArr.filter((chr) => /[A-Z]/.test(chr));
+
+  let density = {};
+  charArr.forEach((chr) => {
+    density[chr] = Object.hasOwn(density, chr) ? density[chr] + 1 : 1;
+  });
+
+  const sortedDensity = Object.entries(density).sort(
+    ([, v1], [, v2]) => v2 - v1
+  );
+  const totalLetters = sortedDensity.reduce((ac, elm) => (ac += elm[1]), 0);
+
+  showLetterDensity(sortedDensity, totalLetters);
 }
 
 function analyzeText(text) {
