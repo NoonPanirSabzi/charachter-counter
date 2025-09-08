@@ -30,10 +30,19 @@
     <header>
       <div class="header">
         <div class="logo-container">
-          <img src="./assets/images/logo-light-theme.svg" alt="light logo" />
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              srcset="./assets/images/logo-dark-theme.svg"
+            />
+            <img src="./assets/images/logo-light-theme.svg" alt="light logo" />
+          </picture>
         </div>
         <div class="theme-container">
-          <img src="./assets/images/icon-moon.svg" alt="icon moon" />
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="./assets/images/icon-sun.svg">
+            <img src="./assets/images/icon-moon.svg" alt="icon moon" />
+          </picture>
         </div>
       </div>
       <h1 class="text-preset-1">Analyze your text in real-time.</h1>
@@ -108,8 +117,7 @@
         <p class="no-chr-found">
           No characters found. Start typing to see letter density.
         </p>
-        <div class="letter-density__stats">
-        </div>
+        <div class="letter-density__stats"></div>
       </div>
     </main>
     <script src="main.js"></script>

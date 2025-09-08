@@ -68,6 +68,51 @@
   --letter-spacing-preset-2: -0.0625rem;
   --letter-spacing-preset-3: -0.0375rem;
   --letter-spacing-preset-4: -0.0375rem;
+
+  /* Theme Light */
+  --body-bg: url(./assets/images/bg-light-theme.png);
+  --theme-container-bg: var(--color-neutral-100);
+  --theme-container-bg-hover: var(--color-neutral-200);
+  --h1-clr: var(--color-neutral-900);
+  --options-clr: var(--color-neutral-900);
+  --letter-density-clr: var(--color-neutral-900);
+  --nochr-found-clr: var(--color-neutral-600);
+  --progress-bar-outer-clr: var(--color-neutral-100);
+  --comp-textarea-clr: var(--color-neutral-700);
+  --comp-textarea-bg-clr: var(--color-neutral-100);
+  --comp-textarea-border-clr: var(--color-neutral-200);
+  --comp-textarea-input-hover-clr: var(--color-neutral-200);
+  --comp-textarea-input-placeholder: var(--color-neutral-700);
+  --error-clr: var(--color-orange-800);
+  --comp-checkbox-hover-clr: var(--color-neutral-600);
+  --comp-checkbox-number-clr: var(--color-neutral-900);
+}
+
+/* Theme Dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg: url(./assets/images/bg-dark-theme.png);
+    --theme-container-bg: var(--color-neutral-700);
+    --theme-container-bg-hover: var(--color-neutral-600);
+    --h1-clr: var(--color-neutral-100);
+    --options-clr: var(--color-neutral-200);
+    --letter-density-clr: var(--color-neutral-200);
+    --nochr-found-clr: var(--color-neutral-200);
+    --progress-bar-outer-clr: var(--color-neutral-800);
+    --comp-textarea-clr: var(--color-neutral-200);
+    --comp-textarea-bg-clr: var(--color-neutral-800);
+    --comp-textarea-border-clr: var(--color-neutral-700);
+    --comp-textarea-input-placeholder: var(--color-neutral-200);
+    --comp-textarea-input-hover-clr: var(--color-neutral-700);
+    --error-clr: var(--color-orange-500);
+    --comp-checkbox-hover-clr: var(--color-neutral-0);
+    --comp-checkbox-number-clr: var(--color-neutral-0);
+  }
+}
+
+/* Theme transition */
+body.theme-transition * {
+  transition: all 0.25s ease-in-out;
 }
 
 .text-preset-1 {
@@ -108,6 +153,7 @@
 
 body {
   padding-inline: var(--spacing-200);
+  background: var(--body-bg);
 }
 
 img {
@@ -130,7 +176,12 @@ img {
   block-size: 2rem;
   border-radius: var(--radius-6);
   padding: var(--spacing-075);
-  background-color: var(--color-neutral-100);
+  background-color: var(--theme-container-bg);
+  cursor: pointer;
+}
+
+.theme-container:hover {
+  background-color: var(--theme-container-bg-hover);
 }
 
 h1 {
@@ -138,14 +189,14 @@ h1 {
   text-align: center;
   margin-inline: auto;
   margin-block: var(--spacing-500);
-  color: var(--color-neutral-900);
+  color: var(--h1-clr);
 }
 
 .options-container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-150);
-  color: var(--color-neutral-900);
+  color: var(--options-clr);
 }
 
 .stats {
@@ -187,11 +238,11 @@ h2 {
 }
 
 .letter-density {
-  color: var(--color-neutral-900);
+  color: var(--letter-density-clr);
 }
 
 .no-chr-found {
-  color: var(--color-neutral-600);
+  color: var(--nochr-found-clr);
 }
 
 .letter {
@@ -214,7 +265,7 @@ h2 {
 .outer-bar {
   width: 100%;
   height: 0.75rem;
-  background-color: var(--color-neutral-100);
+  background-color: var(--progress-bar-outer-clr);
   border-radius: var(--radius-full);
 }
 
@@ -243,14 +294,18 @@ h2 {
   block-size: 12.5rem;
   border-radius: var(--radius-12);
   padding: var(--spacing-150);
-  border: 2px solid var(--color-neutral-200);
-  color: var(--color-neutral-700);
-  background-color: var(--color-neutral-100);
+  border: 2px solid var(--comp-textarea-border-clr);
+  color: var(--comp-textarea-clr);
+  background-color: var(--comp-textarea-bg-clr);
   resize: none;
 }
 
+.comp-textarea__input::placeholder {
+  color: var(--comp-textarea-input-placeholder);
+}
+
 .comp-textarea__input:hover {
-  background-color: var(--color-neutral-200);
+  background-color: var(--comp-textarea-input-hover-clr);
 }
 
 .comp-textarea__input:focus {
@@ -261,8 +316,8 @@ h2 {
 
 :is(.error, .error:focus) {
   outline: none;
-  border: 1px solid var(--color-orange-800);
-  box-shadow: 0 0 0.5rem var(--color-orange-800);
+  border: 1px solid var(--error-clr);
+  box-shadow: 0 0 0.5rem var(--error-clr);
 }
 
 .comp-textarea__hint {
@@ -270,7 +325,7 @@ h2 {
   padding-inline-start: 1.375rem;
   margin-block-start: var(--spacing-150);
   position: relative;
-  color: var(--color-orange-800);
+  color: var(--error-clr);
 }
 
 .comp-textarea__hint::before {
@@ -292,14 +347,14 @@ h2 {
   appearance: none;
   inline-size: 1rem;
   block-size: 1rem;
-  border: 1px solid var(--color-neutral-900);
+  border: 1px solid var(--options-clr);
   border-radius: var(--radius-4);
   order: 0;
 }
 
 :is(.comp-checkbox__input, .comp-checkbox__label):hover {
   cursor: pointer;
-  border-color: var(--color-neutral-600);
+  border-color: var(--comp-checkbox-hover-clr);
 }
 
 .comp-checkbox__input:focus {
@@ -330,7 +385,8 @@ h2 {
   padding-block: var(--spacing-050);
   border-radius: var(--radius-6);
   border: 1px solid var(--color-neutral-600);
-  color: var(--color-neutral-900);
+  color: var(--comp-checkbox-number-clr);
+  background-color: transparent;
   order: 2;
 }
 
