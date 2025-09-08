@@ -193,6 +193,7 @@ body.theme-transition * {
 
 body {
   padding-inline: var(--spacing-200);
+  padding-block-end: var(--spacing-400);
   background: var(--body-bg);
 }
 
