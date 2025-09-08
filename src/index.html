@@ -31,6 +31,7 @@
       <div class="header">
         <div class="logo-container">
           <picture>
+            <source data-theme="" srcset="">
             <source
               media="(prefers-color-scheme: dark)"
               srcset="./assets/images/logo-dark-theme.svg"
@@ -38,8 +39,9 @@
             <img src="./assets/images/logo-light-theme.svg" alt="light logo" />
           </picture>
         </div>
-        <div class="theme-container">
+        <div class="theme-container" id="theme-toggle">
           <picture>
+            <source data-theme="" srcset="">
             <source media="(prefers-color-scheme: dark)" srcset="./assets/images/icon-sun.svg">
             <img src="./assets/images/icon-moon.svg" alt="icon moon" />
           </picture>

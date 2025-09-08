@@ -1,4 +1,5 @@
 const elements = {
+  body: document.querySelector("body"),
   userText: document.getElementById("user-text"),
   excludeSpaces: document.getElementById("exclude-spaces"),
   chrLimit: document.getElementById("chr-limit"),
@@ -11,7 +12,9 @@ const elements = {
   noSpaceText: document.getElementById("nospace-text"),
   noChrFound: document.querySelector(".no-chr-found"),
   letterDensityStats: document.querySelector(".letter-density__stats"),
+  themeToggleBtn: document.getElementById("theme-toggle"),
 };
+const root = document.documentElement;
 let detailedLetterDensity = false;
 
 function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
@@ -42,7 +45,7 @@ function showLetterDensity(sortedDensityArr, totalLetters) {
   for (let i = 0; i < sortedDensityArr.length; i++) {
     let letter = sortedDensityArr[i][0];
     let count = sortedDensityArr[i][1];
-    let density = (count / totalLetters * 100).toFixed(2);
+    let density = ((count / totalLetters) * 100).toFixed(2);
     lDContainerHTML += `
           <div class="letter">
             <span>${letter}</span>
@@ -157,3 +160,46 @@ elements.letterDensityStats.addEventListener("click", (e) => {
     mainHandler(false, false, true);
   }
 });
+
+function updatePictures(updateTheme) {
+  const pictures = document.querySelectorAll("picture");
+
+  pictures.forEach((picture) => {
+    const srcNext =
+      updateTheme === "dark"
+        ? picture.querySelector('source[media="(prefers-color-scheme: dark)"]')
+            .srcset
+        : picture.querySelector("img").src;
+
+    picture.querySelector("source[data-theme]").srcset = srcNext;
+  });
+}
+
+elements.themeToggleBtn.addEventListener("click", () => {
+  let currentTheme = root.getAttribute("data-theme");
+
+  if (currentTheme === null) {
+    currentTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  const nextTheme = currentTheme === "light" ? "dark" : "light";
+
+  elements.body.classList.add("theme-transition");
+
+  root.setAttribute("data-theme", nextTheme);
+  updatePictures(nextTheme);
+  localStorage.setItem("theme", nextTheme);
+
+  setTimeout(() => {
+    elements.body.classList.remove("theme-transition");
+  }, 250);
+});
+
+// on load check Theme:
+const storedTheme = localStorage.getItem("theme");
+if (storedTheme) {
+  root.setAttribute("data-theme", storedTheme);
+  updatePictures(storedTheme);
+}
