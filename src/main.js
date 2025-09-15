@@ -88,8 +88,8 @@ function analyzeText(textArr) {
   const excludeSpace = elements.excludeSpaces.checked;
   const spaceCount = textArr.filter((chr) => chr === " ").length;
   const totalCharacters = textArr.length - (excludeSpace ? spaceCount : 0);
-  const wordCount = spaceCount;
-  const sentenceCount = textArr.filter((chr) => chr === ".").length;
+  const wordCount = textArr.length === 0 ? 0 : spaceCount + 1;
+  const sentenceCount = textArr.filter((chr) => chr.match(/[.?!]/)).length;
   const readTime = Math.floor(wordCount / 238);
 
   elements.noSpaceText.classList.toggle("invisible", !excludeSpace);
