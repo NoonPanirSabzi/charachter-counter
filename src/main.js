@@ -32,15 +32,15 @@ function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
 function showLetterDensity(sortedDensityArr, totalLetters) {
   let lDContainerHTML = ``;
   const seeMoreHTML = `
-          <div class="toggle-ld-btn">
+          <button type="button" class="toggle-ld-btn">
             <span>See more</span
             ><i class="fas fa-angle-down"></i>
-          </div>`;
+          </button>`;
   const seeLessHTML = `
-          <div class="toggle-ld-btn">
+          <button type="button" class="toggle-ld-btn">
             <span>See less</span
             ><i class="fas fa-angle-up"></i>
-          </div>`;
+          </button>`;
 
   for (let i = 0; i < sortedDensityArr.length; i++) {
     let letter = sortedDensityArr[i][0];

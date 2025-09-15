@@ -324,12 +324,18 @@ h2 {
 }
 
 .toggle-ld-btn {
+  all: unset;
   width: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--spacing-100);
   cursor: pointer;
+}
+
+.toggle-ld-btn:focus-visible {
+  outline: 0.125rem solid var(--color-blue-400);
+  outline-offset: 0.125rem;
 }
 
 /* COMPONENTS */
