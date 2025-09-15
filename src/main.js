@@ -203,3 +203,13 @@ if (storedTheme) {
   root.setAttribute("data-theme", storedTheme);
   updatePictures(storedTheme);
 }
+
+// if theme changes in one window, update in other windows
+window.addEventListener("storage", (e) => {
+  if (e.key === "theme") {
+    const newTheme = e.newValue;
+    root.setAttribute("data-theme", newTheme);
+    updatePictures(newTheme);
+    localStorage.setItem("theme", newTheme);
+  }
+});
