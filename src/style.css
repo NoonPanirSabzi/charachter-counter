@@ -213,6 +213,8 @@ img {
 }
 
 .theme-container {
+  all: unset;
+  box-sizing: border-box;
   inline-size: 2rem;
   block-size: 2rem;
   border-radius: var(--radius-6);
@@ -223,6 +225,11 @@ img {
 
 .theme-container:hover {
   background-color: var(--theme-container-bg-hover);
+}
+
+.theme-container:focus-visible {
+  outline: 0.125rem solid var(--color-blue-400);
+  outline-offset: 0.125rem;
 }
 
 h1 {
