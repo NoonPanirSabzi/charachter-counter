@@ -302,11 +302,11 @@ h2 {
 }
 
 .letter span:first-of-type {
-  width: 1rem;
+  min-width: 1rem;
 }
 
 .letter span:last-of-type {
-  width: 7rem;
+  min-width: 6rem;
   text-align: end;
 }
 
