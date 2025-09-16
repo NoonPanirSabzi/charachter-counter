@@ -1,3 +1,7 @@
+const WPM = 238;
+const MAX_PREVIEW_ITEMS = 5;
+const LETTER_REGEX = /[A-Z]/;
+
 const elements = {
   body: document.querySelector("body"),
   userText: document.getElementById("user-text"),
@@ -15,103 +19,110 @@ const elements = {
   themeToggleBtn: document.getElementById("theme-toggle"),
 };
 const root = document.documentElement;
-let detailedLetterDensity = false;
+let isDetailedLetterDensity = false;
 
-function showResult(totalCharacters, wordCount, sentenceCount, readTime) {
-  elements.totalCharacters.innerText =
-    totalCharacters < 10 ? "0" + String(totalCharacters) : totalCharacters;
-  elements.wordCount.innerText =
-    wordCount < 10 ? "0" + String(wordCount) : wordCount;
-  elements.sentenceCount.innerText =
-    sentenceCount < 10 ? "0" + String(sentenceCount) : sentenceCount;
-  elements.readTime.innerText = `Approx. reading time: ${
-    readTime === 0 ? "<1" : readTime
-  } minute`;
+/* ---------- Helpers ---------- */
+function padTwo(n) {
+  return n < 10 ? `0${n}` : String(n);
+}
+
+function formatReadTime(minutes) {
+  return `Approx. reading time: ${minutes === 0 ? "<1" : minutes} minute`;
+}
+
+/* ---------- UI Updaters ---------- */
+function showResult(totalCharacters, words, sentences, readTimeMinutes) {
+  elements.totalCharacters.innerText = padTwo(totalCharacters);
+  elements.wordCount.innerText = padTwo(words);
+  elements.sentenceCount.innerText = padTwo(sentences);
+  elements.readTime.innerText = formatReadTime(readTimeMinutes);
 }
 
 function showLetterDensity(sortedDensityArr, totalLetters) {
-  let lDContainerHTML = ``;
+  let html = "";
   const seeMoreHTML = `
-          <button type="button" class="toggle-ld-btn">
-            <span>See more</span
-            ><i class="fas fa-angle-down"></i>
-          </button>`;
+    <button type="button" class="toggle-ld-btn">
+      <span>See more</span><i class="fas fa-angle-down"></i>
+    </button>`;
   const seeLessHTML = `
-          <button type="button" class="toggle-ld-btn">
-            <span>See less</span
-            ><i class="fas fa-angle-up"></i>
-          </button>`;
+    <button type="button" class="toggle-ld-btn">
+      <span>See less</span><i class="fas fa-angle-up"></i>
+    </button>`;
 
   for (let i = 0; i < sortedDensityArr.length; i++) {
-    let letter = sortedDensityArr[i][0];
-    let count = sortedDensityArr[i][1];
-    let density = ((count / totalLetters) * 100).toFixed(2);
-    lDContainerHTML += `
-          <div class="letter">
-            <span>${letter}</span>
-            <div class="outer-bar"><div class="inside-bar" style="width: ${density}%;"></div></div>
-            <span>${count} (${density}%)</span>
-          </div>
+    const [letter, count] = sortedDensityArr[i];
+    const density = ((count / totalLetters) * 100).toFixed(2);
+    html += `
+      <div class="letter">
+        <span>${letter}</span>
+        <div class="outer-bar"><div class="inside-bar" style="width: ${density}%;"></div></div>
+        <span>${count} (${density}%)</span>
+      </div>
     `;
-    if (i === 4 && i < sortedDensityArr.length - 1 && !detailedLetterDensity) {
-      lDContainerHTML += seeMoreHTML;
+    if (
+      i === MAX_PREVIEW_ITEMS - 1 &&
+      i < sortedDensityArr.length - 1 &&
+      !isDetailedLetterDensity
+    ) {
+      html += seeMoreHTML;
       break;
     }
   }
 
-  if (sortedDensityArr.length > 5 && detailedLetterDensity) {
-    lDContainerHTML += seeLessHTML;
+  if (sortedDensityArr.length > MAX_PREVIEW_ITEMS && isDetailedLetterDensity) {
+    html += seeLessHTML;
   }
-  elements.letterDensityStats.innerHTML = lDContainerHTML;
+
+  elements.letterDensityStats.innerHTML = html;
 }
 
+/* ---------- Logic ---------- */
 function evaluateLetterDensity(show, charArr) {
   elements.noChrFound.classList.toggle("hidden", show);
   elements.letterDensityStats.classList.toggle("hidden", !show);
 
-  charArr = charArr.filter((chr) => /[A-Z]/.test(chr));
+  if (!show) return;
 
-  let density = {};
-  charArr.forEach((chr) => {
-    density[chr] = Object.hasOwn(density, chr) ? density[chr] + 1 : 1;
-  });
+  const letters = charArr.filter((c) => LETTER_REGEX.test(c));
+  const density = letters.reduce((acc, c) => {
+    acc[c] = Object.hasOwn(acc, c) ? acc[c] + 1 : 1;
+    return acc;
+  }, {});
 
   const sortedDensity = Object.entries(density).sort(
     ([, v1], [, v2]) => v2 - v1
   );
-  const totalLetters = sortedDensity.reduce((ac, elm) => (ac += elm[1]), 0);
+  const totalLetters = sortedDensity.reduce((sum, [, count]) => sum + count, 0);
 
   showLetterDensity(sortedDensity, totalLetters);
 }
 
-function analyzeText(textArr) {
-  const excludeSpace = elements.excludeSpaces.checked;
-  const spaceCount = textArr.filter((chr) => chr === " ").length;
-  const totalCharacters = textArr.length - (excludeSpace ? spaceCount : 0);
-  const wordCount = textArr.length === 0 ? 0 : spaceCount + 1;
-  const sentenceCount = textArr.filter((chr) => chr.match(/[.?!]/)).length;
-  const readTime = Math.floor(wordCount / 238);
+function analyzeTextFromCharArray(charArr, excludeSpace) {
+  const spaceCount = charArr.filter((ch) => ch === " ").length;
+  const totalCharacters = charArr.length - (excludeSpace ? spaceCount : 0);
+  const wordCount = charArr.length === 0 ? 0 : spaceCount + 1;
+  const sentenceCount = charArr.filter((ch) => ch.match(/[.?!]/)).length;
+  const readTime = Math.floor(wordCount / WPM);
 
   elements.noSpaceText.classList.toggle("invisible", !excludeSpace);
   showResult(totalCharacters, wordCount, sentenceCount, readTime);
 }
 
-function checkLimit(text) {
+function checkLimitAndApply(text) {
   if (elements.chrLimitCount.checkValidity() === false) {
     elements.chrLimitCount.reportValidity();
     elements.chrLimitCount.classList.add("error");
     return text;
-  } else {
-    elements.chrLimitCount.classList.remove("error");
   }
+  elements.chrLimitCount.classList.remove("error");
 
   const hasLimit = elements.chrLimit.checked;
-  const limitTreshhold = elements.chrLimitCount.valueAsNumber;
-  const limitReached = text.length > limitTreshhold;
+  const limitThreshold = elements.chrLimitCount.valueAsNumber;
+  const limitReached = text.length > limitThreshold;
 
   if (hasLimit && limitReached) {
-    elements.userText.value = text.slice(0, limitTreshhold);
-    elements.hint.innerText = `Limit reached! Your text exceeds ${limitTreshhold} characters.`;
+    elements.userText.value = text.slice(0, limitThreshold);
+    elements.hint.innerText = `Limit reached! Your text exceeds ${limitThreshold} characters.`;
   }
 
   elements.hint.classList.toggle("hidden", !limitReached);
@@ -119,25 +130,25 @@ function checkLimit(text) {
   return elements.userText.value;
 }
 
-function mainHandler(analyize, limit, density) {
-  const userText = limit
-    ? checkLimit(elements.userText.value)
-    : elements.userText.value;
-  const userTextArr = userText.trim().toUpperCase().split("");
-  if (analyize) {
-    analyzeText(userTextArr);
-  }
-  if (density) {
-    evaluateLetterDensity(userTextArr.length === 0 ? false : true, userTextArr);
-  }
+function mainHandler(options = {}) {
+  const { analyze = true, limit = true, density = true } = options;
+
+  const raw = elements.userText.value;
+  const userText = limit ? checkLimitAndApply(raw) : raw;
+  const charArr = userText.trim().toUpperCase().split("");
+
+  if (analyze)
+    analyzeTextFromCharArray(charArr, elements.excludeSpaces.checked);
+  if (density) evaluateLetterDensity(charArr.length !== 0, charArr);
 }
 
+/* ---------- Event Listeners ---------- */
 elements.userText.addEventListener("input", () => {
-  mainHandler(true, true, true);
+  mainHandler({ analyze: true, limit: true, density: true });
 });
 
 elements.excludeSpaces.addEventListener("change", () => {
-  mainHandler(true, false, false);
+  mainHandler({ analyze: true, limit: false, density: false });
 });
 
 elements.chrLimit.addEventListener("change", () => {
@@ -145,53 +156,47 @@ elements.chrLimit.addEventListener("change", () => {
   if (elements.chrLimitCount.classList.contains("invisible")) {
     elements.chrLimitCount.value = null;
   }
-  mainHandler(false, true, false);
+  mainHandler({ analyze: false, limit: true, density: false });
 });
 
 elements.chrLimitCount.addEventListener("change", () => {
-  mainHandler(true, true, true);
+  mainHandler({ analyze: true, limit: true, density: true });
 });
 
 elements.letterDensityStats.addEventListener("click", (e) => {
   const toggleBtn = e.target.closest(".toggle-ld-btn");
-
   if (toggleBtn) {
-    detailedLetterDensity = !detailedLetterDensity;
-    mainHandler(false, false, true);
+    isDetailedLetterDensity = !isDetailedLetterDensity;
+    mainHandler({ analyze: false, limit: false, density: true });
   }
 });
 
-function updatePictures(updateTheme) {
+/* ---------- Theme  ---------- */
+function updatePictures(theme) {
   const pictures = document.querySelectorAll("picture");
-
   pictures.forEach((picture) => {
     const srcNext =
-      updateTheme === "dark"
+      theme === "dark"
         ? picture.querySelector('source[media="(prefers-color-scheme: dark)"]')
             .srcset
         : picture.querySelector("img").src;
-
     picture.querySelector("source[data-theme]").srcset = srcNext;
   });
 }
 
 elements.themeToggleBtn.addEventListener("click", () => {
   let currentTheme = root.getAttribute("data-theme");
-
   if (currentTheme === null) {
     currentTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
   }
-
   const nextTheme = currentTheme === "light" ? "dark" : "light";
 
   elements.body.classList.add("theme-transition");
-
   root.setAttribute("data-theme", nextTheme);
   updatePictures(nextTheme);
   localStorage.setItem("theme", nextTheme);
-
   setTimeout(() => {
     elements.body.classList.remove("theme-transition");
   }, 250);
